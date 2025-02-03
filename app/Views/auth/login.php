@@ -19,7 +19,7 @@
             <div class="text-gray-400 text-center text-sm font-normal pb-10">
                 <p2>Please enter your details</p2>
             </div>
-                <form action="/login" class="max-w-sm mx-auto"> 
+                <form action="/auth" class="max-w-sm mx-auto"> 
                     <input type="text" name="username" class="bg-white border text-black
                     text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username" required>
 
