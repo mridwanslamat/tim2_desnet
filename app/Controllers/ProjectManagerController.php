@@ -6,6 +6,12 @@ class ProjectManagerController extends BaseController
 {
     public function index()
     {
-        echo "Welcome, Project Manager!";
+        $session = session();
+
+        //Ambil data dari session
+        $data['username'] = $session->get('username');
+        $data['level'] = ($session->get('level') == 1) ? 'Admin' : 'Project Manager';
+
+        return view('projectmanager/dashboard', $data);
     }
 }
