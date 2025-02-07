@@ -27,7 +27,18 @@
                     <div class="mt-8 items-center flex justify-center">
                         <img src="<?= base_url('img/addnewproject.png')?>" alt="new" class="w-[250px]">
                     </div>
-                    <form action="/--" class="max-w-sm mx-auto"> 
+
+                    <?php $session = session(); ?>
+
+                    <?php if ($session->getFlashdata('error')): ?>
+                        <p class="text-center text-sm text-red-600"><?= $session->getFlashdata('error'); ?></p>
+                    <?php endif; ?>
+
+                    <?php if ($session->getFlashdata('success')): ?>
+                        <p class="text-center text-sm text-green-600"><?= $session->getFlashdata('success'); ?></p>
+                    <?php endif; ?>
+
+                    <form action="/admin/addnewproject" method="post" class="max-w-sm mx-auto"> 
                         <input type="text" name="ProjectManager" class="bg-white border text-black
                         text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-10" placeholder="Project Manager" required>
 

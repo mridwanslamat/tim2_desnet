@@ -8,9 +8,9 @@
 </head>
 <body class="bg-gray-100 justify-center items-center h-screen">
     <nav class="bg-white p-7">
-        <div class="container flex justify-between items-center">
+        <a href="/" class="container flex justify-between items-center">
             <img src="<?= base_url('img/desnet.jpg')?>" alt="desnet logo" class="w-24" >
-        </div>
+        </a>
     </nav>
     
     <div class="bg-white flex justify-center items-center mx-20 my-10 h-[495px] rounded-xl shadow-lg grid grid-cols-2">
@@ -19,6 +19,12 @@
             <div class="text-gray-400 text-center text-sm font-normal pb-10">
                 <p2>Please enter your details</p2>
             </div>
+            <?php $session = session(); ?>
+
+            <?php if ($session->getFlashdata('error')): ?>
+                <p class="text-center text-sm text-red-600"><?= $session->getFlashdata('error'); ?></p>
+            <?php endif; ?>
+            
                 <form action="/auth" class="max-w-sm mx-auto"> 
                     <input type="text" name="username" class="bg-white border text-black
                     text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username" required>

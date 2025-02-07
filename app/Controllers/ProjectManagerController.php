@@ -4,14 +4,24 @@ namespace App\Controllers;
 
 class ProjectManagerController extends BaseController
 {
-    public function index()
+    protected $sessionData;
+
+    public function __construct()
     {
         $session = session();
+        $this->sessionData = [
+            'username' => $session->get('username'),
+            'level' => ($session->get('level') == 1) ? 'Admin' : 'Project Manager'
+        ];
+    }
 
-        //Ambil data dari session
-        $data['username'] = $session->get('username');
-        $data['level'] = ($session->get('level') == 1) ? 'Admin' : 'Project Manager';
+    public function index()
+    {
+        return view('projectmanager/dashboard', $this->sessionData);
+    }
 
-        return view('projectmanager/dashboard', $data);
+    public function listProject()
+    {
+        return view('projectmanager/listproject', $this->sessionData);
     }
 }

@@ -8,50 +8,56 @@ use App\Models\UserModel;
 class AuthController extends Controller
 {
     public function login()
-    {
+    {   
         return view('auth/login'); // Tampilkan halaman login
-        // return view('projectmanager/listproject');
+        // return view('admin/history');
     }
 
     public function auth()
     {
         $session = session();
-        $model = new UserModel();
-
+        $userModel = new UserModel();
+    
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password'); // Pastikan hashing sama dengan yang di database
         
-        $user = $model->where('username', $username)->first();
-
+        $user = $userModel->where('username', $username)->first();
+    
         if ($user) {
-            if ($password == $user['password']) {
-            // Simpan data user ke session
-            $sessionData = [
-                'id' => $user['id'],
-                'username' => $user['username'],
-                'level' => $user['level'], // 1 = Admin, 2 = Project Manager
-                'logged_in' => true
-            ];
-            
-            $session->set($sessionData);
-            }
-
-            
-            // Redirect berdasarkan level
-            if ($user['level'] == 1) {
-                return redirect()->to('/admin');
-            } elseif ($user['level'] == 2) {
-                return redirect()->to('/project-manager');
+            // Periksa apakah password cocok
+            if (strcmp($password, $user['password']) == 0) {
+                // Simpan data user ke session
+                $sessionData = [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'level' => $user['level'], // 1 = Admin, 2 = Project Manager
+                    'logged_in' => true
+                ];
+                
+                $session->set($sessionData);
+    
+                // Redirect berdasarkan level
+                if ($user['level'] == 1) {
+                    return redirect()->to('/admin/dashboard');
+                } elseif ($user['level'] == 2) {
+                    return redirect()->to('/project-manager');
+                }
+            } else {
+                // Password salah
+                $session->setFlashdata('error', 'Invalid username or password');
+                return redirect()->to('/');
             }
         } else {
+            // Username tidak ditemukan
             $session->setFlashdata('error', 'Invalid username or password');
             return redirect()->to('/');
         }
-    }
+    }    
 
     public function logout()
     {
-        session()->destroy();
+        $session = session();
+        $session()->destroy();
         return redirect()->to('/');
     }
 }

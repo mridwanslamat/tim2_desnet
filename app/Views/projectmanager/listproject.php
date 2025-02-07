@@ -39,31 +39,28 @@
                         <div class="overflow-hidden">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                                 <thead class="bg-white">
-                                    <tr>
-                                        <th scope="col" class="py-3 px-4 pe-0">
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-start text-xs  font-bold text-black dark:text-neutral-500">Project ID</th>
-                                        <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-black dark:text-neutral-500">Project Title</th>
-                                        <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-black dark:text-neutral-500">Project Schedule</th>
-                                        <th scope="col" class="px-6 py-3 text-end text-xs font-bold text-black dark:text-neutral-500">Manage</th>
-                                    </tr>
-                                </thead>
-                                
-            <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-              <tr>
-                <td class="py-3 ps-4">
-                  <div class="flex items-center h-5">
-                    <input id="hs-table-pagination-checkbox-1" type="checkbox" class="border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
-                    <label for="hs-table-pagination-checkbox-1" class="sr-only">Checkbox</label>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">John Brown</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">45</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">New York No. 1 Lake Park</td>
-                <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                  <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Delete</button>
-                </td>
-              </tr>
+                                  <tr>
+                                    <th scope="col" class="py-3 px-4 pe-0">
+                                    </th>
+                                      <th scope="col" class="px-6 py-3 text-start text-xs  font-bold text-black">Project ID</th>
+                                      <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-black">Project Title</th>
+                                      <th scope="col" class="px-6 py-3 text-start text-xs font-bold text-black">Project Schedule</th>
+                                      <th scope="col" class="px-6 py-3 text-end text-xs font-bold text-black">Manage</th>
+                                  </tr>
+                                </thead>                     
+                                <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                                  <tr>
+                                    <td class="py-3 ps-4">
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black dark:text-neutral-500">21061</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black dark:text-neutral-500">Company Profile</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-black dark:text-neutral-500">2024-01-10</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end font-medium text-black dark:text-neutral-500">
+                                      <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                      hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                      dark:focus:text-blue-400">Click Here</button>
+                                    </td>
+                                  </tr>
 
               <tr>
                 <td class="py-3 ps-4">

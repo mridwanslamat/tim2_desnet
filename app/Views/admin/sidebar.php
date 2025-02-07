@@ -13,17 +13,18 @@
     <div class = "ml-6 mt-6">
         <img src="<?= base_url('img/desnet.jpg')?>" alt="desnet logo" class="w-3/5" >
     </div>
+
         <!-- Dashboard -->
-        <div class="flex items-center space-x-2 mt-[55px] text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
+        <a href="/admin/dashboard" class="flex items-center space-x-2 mt-[55px] text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-regular fa-calendar"></i>
             <span class="font-semibold">Dashboard</span>
-        </div>
+        </a>
         
         <!-- Menu Items -->
-        <div class="flex items-center space-x-3 text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
+        <a href="/admin/addnewproject" class="flex items-center space-x-3 text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-regular fa-file"></i>
             <span class="font-semibold">Create New Project</span>
-        </div>
+        </a>
     
         <div class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-solid fa-clock-rotate-left"></i>
@@ -31,12 +32,12 @@
         </div>
 
         <!-- Logout -->
-        <div class="mt-auto">
+        <a href="/" class="mt-auto">
             <div class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
               <i class="fa-solid fa-arrow-right-from-bracket"></i>
              <span class="font-medium">Logout</span>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 </html>
