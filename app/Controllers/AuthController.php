@@ -40,7 +40,7 @@ class AuthController extends Controller
                 if ($user['level'] == 1) {
                     return redirect()->to('/admin/dashboard');
                 } elseif ($user['level'] == 2) {
-                    return redirect()->to('/project-manager');
+                    return redirect()->to('/project-manager/dashboard');
                 }
             } else {
                 // Password salah

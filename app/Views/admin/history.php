@@ -22,7 +22,7 @@
         </header>
     </div>
 
-    <!-- List -->
+    <!-- History -->
     <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg flex-col">
         <div>
             <div>
@@ -38,53 +38,58 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <table class="w-full divide-y divide-neutral-700 dark:divide-neutral-700">
-                            <thead class="bg-white flex w-full">
-                                <tr class="text-base flex justify-between font-bold text-black text-center">
-                                    <th scope="col" class="px-[61px] py-3">Project Manager</th>
-                                    <th scope="col" class="px-[61px] py-3">Project Title</th>
-                                    <th scope="col" class="px-[61px] py-3">Date Updated</th>
-                                    <th scope="col" class="px-[61px] py-3">Status</th>
-                                    <th scope="col" class="px-[61px] py-3">Document</th>
-                                    <th scope="col" class="px-[61px] py-3">Update</th>
+                    <div class="flex flex-col gap-2 w-full mt-4 px-5 divide-y divide-black dark:divide-black">
+                        <table class="divide-y divide-black dark:divide-black w-full gap-2 border-separate border-spacing-2">
+                            <thead css="divide-y divide-black dark:divide-black">
+                                <tr class="border">
+                                    <th class="text-left">Project Manager</th>
+                                    <th class="text-left">Project Title</th>
+                                    <th class="text-left">Date Updated</th>
+                                    <th class="text-left w-xl">Status</th>
+                                    <th class="text-center">Document</th>
+                                    <th class="text-center">Update</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-black dark:divide-black bg-white w-full">
-                                <tr class="text-sm flex justify-between text-black text-left">
-                                    <td scope="col" class="pl-[60px] py-3">Lindsey Gouse</td>
-                                    <td scope="col" class="pl-[90px] py-3">Company Profile</td>
-                                    <td scope="col" class="pl-[60px] py-3">2024-01-12</td>
-                                    <td scope="col" class="pl-[96px] py-3">On Progress</td>
-                                    <td scope="col" class="pl-[40px] py-3">
+                            <tbody class="text-md divide-y divide-black dark:divide-black">
+                                <tr>
+                                    <td>Lindsey Gouse</td>
+                                    <td>Company Profile</td>
+                                    <td>null</td>
+                                    <td>null</td>
+                                    <td class="text-center">
                                         <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
                                         hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
                                         dark:focus:text-blue-400">
                                             <i class="fa-regular fa-file"></i>
                                         </button>
                                     </td>
-                                    <td class="pl-[113px] py-3 whitespace-nowrap text-end font-medium text-black dark:text-neutral-500">
+
+                                    <td class="text-center">
                                         <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
                                         hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
                                         dark:focus:text-blue-400">Click Here</button>
                                     </td>
                                 </tr>
 
-                                <tr class="text-sm flex justify-between text-black text-center">
-                                    <td class="px-[61px] py-3">Michael Smith</td>
-                                    <td class="px-[96px] py-3">E-Commerce Platform</td>
-                                    <td class="px-[30px] py-3">2024-02-03</td>
-                                    <td class="px-[96px] py-3">Completed</td>
-                                    <td class="px-[40px] py-3">
-                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">
+                                <tr>
+                                    <td>Lindsey Gouse</td>
+                                    <td>Company Profile</td>
+                                    <td>null</td>
+                                    <td>null</td>
+                                    <td class="text-center">
+                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">
                                             <i class="fa-regular fa-file"></i>
                                         </button>
                                     </td>
-                                    <td class="pl-[113px] py-3 whitespace-nowrap text-end font-medium text-black dark:text-neutral-500">
-                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400">Click Here</button>
+
+                                    <td class="text-center">
+                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">Click Here</button>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                         <div class="py-1 px-4">

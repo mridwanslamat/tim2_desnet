@@ -17,3 +17,4 @@ $routes->post('/admin/addnewproject', 'AdminController::store', ['filter' => 'au
 
 $routes->get('/project-manager/dashboard', 'ProjectManagerController::index', ['filter'=>'auth']);
 $routes->get('/project-manager/listproject', 'ProjectManagerController::listProject', ['filter'=>'auth']);
+$routes->get('/project-manager/manageproject', 'ProjectManagerController::manageProject', ['filter'=>'auth']);

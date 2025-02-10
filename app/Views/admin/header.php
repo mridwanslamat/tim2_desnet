@@ -18,7 +18,7 @@
             </div>
             <div>
                 <h1 class="text-bs font-medium text-black">
-                    <?= esc($username); ?>
+                  <?= esc($username); ?>
                 </h1>
                 <h2 class="text-sm font-light">
                     <?= esc($level); ?>

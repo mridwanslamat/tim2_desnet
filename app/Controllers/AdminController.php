@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\UserModel;
 use App\Models\ProjectModel;
+
 
 class AdminController extends BaseController
 {
@@ -25,7 +27,13 @@ class AdminController extends BaseController
 
     public function addNewProject()
     {
-        return view('admin/addnewproject', $this->sessionData);
+        $userModel = new UserModel();
+        $data['projectManagers'] = $userModel->getProjectManagers();
+
+        // Gabungkan dengan sessionData untuk dikirim ke view
+        $viewData = array_merge($this->sessionData ?? [], $data);
+        
+        return view('admin/addnewproject', $viewData);
     }
 
     public function store()
@@ -37,12 +45,12 @@ class AdminController extends BaseController
         // Ambil data dari form
         $data = [
             'ProjectManager' => $this->request->getPost('ProjectManager'),
-            'ProjectTitle' => $this->request->getPost('ProjectTitle'),
+            'Title' => $this->request->getPost('Title'),
             'ClientName' => $this->request->getPost('ClientName')
         ];
 
         // Cek apakah ada field yang kosong
-        if (empty($data['ProjectManager']) || empty($data['ProjectTitle']) || empty($data['ClientName'])) {
+        if (empty($data['ProjectManager']) || empty($data['Title']) || empty($data['ClientName'])) {
             $session->setFlashdata('error', 'Semua kolom harus diisi!');
             return redirect()->back()->withInput();
         }

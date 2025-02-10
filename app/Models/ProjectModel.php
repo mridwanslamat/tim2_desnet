@@ -8,5 +8,5 @@ class ProjectModel extends Model
 {
     protected $table = 'project'; // Nama tabel di database
     protected $primaryKey = 'Id'; // Primary key
-    protected $allowedFields = ['ProjectManager', 'ProjectTitle', 'ClientName']; // Kolom yang bisa diisi
+    protected $allowedFields = ['ProjectManager', 'Title', 'ClientName']; // Kolom yang bisa diisi
 }
