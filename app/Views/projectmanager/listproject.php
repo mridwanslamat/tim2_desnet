@@ -23,9 +23,9 @@
   </div>
 
   <!-- List -->
-  <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg flex-col">
+  <div class="bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
     <div>
-      <div class="border border-black rounded-lg  w-full">
+      <div class="border border-black rounded-lg w-full">
         <div class="py-3 px-4 rounded-lg">
           <div class="border border-black rounded-lg relative max-w-xs">
             <input type="text" class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm 
@@ -49,7 +49,7 @@
             <tbody class="text-md divide-y divide-black">
               <?php foreach ($projects as $project): ?>
               <tr>
-                <td class="p-3"><?= $project['ProjectTitle']?></td>
+                <td class="p-3"><?= $project['Title']?></td>
                 <td class="p-3"><?= $project['ProjectSchedule']?></td>
                 <td class="text-center p-3">
                   <a href="/project-manager/manageproject" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600

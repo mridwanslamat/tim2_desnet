@@ -41,9 +41,7 @@
             <?php endif; ?>
 
 
-            <form action="/project-manager/addnewproject" method="post" class="max-w-sm mx-auto">
-                <input type="text" name="ProjectManager" class="bg-white border text-black
-                        text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-10" placeholder="Project Manager" required>
+            <form action="/admin/addnewproject" method="post" class="max-w-sm mx-auto">
                 <div>
                     <select name="ProjectManager" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-10" required>
                         <option value="">Select Project Manager</option>

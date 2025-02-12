@@ -10,7 +10,7 @@ class AuthController extends Controller
     public function login()
     {   
         return view('auth/login'); // Tampilkan halaman login
-        // return view('projectmanager/manageproject');
+        // return view('projectmanager/featureuat');
     }
 
     public function auth()

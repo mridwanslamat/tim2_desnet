@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desnet | Admin</title>
+    <title>Desnet | Project Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -12,13 +12,13 @@
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md min-h-screen fixed">
-        <?= $this->include('admin/sidebar') ?>
+        <?= $this->include('projectmanager/sidebar') ?>
     </aside>
 
     <div class="flex-1 flex flex-col pl-64">
         <!-- Header -->
         <header class="fixed top-0 w-[calc(100%-16rem)] shadow-md z-50">
-            <?= $this->include('admin/header') ?>
+            <?= $this->include('projectmanager/header') ?>
         </header>
     </div>
 
@@ -64,11 +64,9 @@
                                     </button>
                                 </td>
                                 <td class="text-center p-3">
-                                    <a href="/admin/history/updateproject" class="text-center p-3">
-                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
                                         hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
                                         dark:focus:text-blue-400">Click Here</button>
-                                    </a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

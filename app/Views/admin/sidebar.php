@@ -26,10 +26,10 @@
             <span class="font-semibold">Create New Project</span>
         </a>
     
-        <div class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
+        <a href="/admin/history" class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-solid fa-clock-rotate-left"></i>
             <span class="font-semibold">History</span>
-        </div>
+        </a>
 
         <!-- Logout -->
         <a href="/" class="mt-auto">

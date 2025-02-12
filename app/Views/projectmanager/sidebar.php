@@ -30,7 +30,7 @@
             <span class="font-semibold">Manage Project</span>
         </a>
     
-        <a href="/project-manager/" class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
+        <a href="/project-manager/history" class="flex items-center space-x-3 text-black p-2.5 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-solid fa-clock-rotate-left"></i>
             <span class="font-semibold">History</span>
         </a>
