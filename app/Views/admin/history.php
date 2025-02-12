@@ -23,7 +23,78 @@
     </div>
 
     <!-- History -->
+    <!-- List -->
     <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg flex-col">
+        <div>
+            <div class="border border-black rounded-lg w-full">
+                <div class="py-3 px-4 rounded-lg">
+                    <div class="border border-black rounded-lg relative max-w-xs">
+                        <input type="text" class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm 
+                               focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                               dark:bg-gray-100 dark:border-gray-600 dark:text-black dark:placeholder-gray-700 dark:focus:ring-gray-500"
+                            placeholder="Search Project Title">
+                        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 w-full">
+                    <table class="min-w-full">
+                        <thead class="bg-white">
+                            <tr class="border border-black text-bold">
+                                <th class="text-left">Project Manager</th>
+                                <th class="text-left">Project Title</th>
+                                <th class="text-left">Date Updated</th>
+                                <th class="text-left w-xl">Status</th>
+                                <th class="text-center">Document</th>
+                                <th class="text-center">Update</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-md divide-y divide-black">
+                            <tr>
+                                <td>Lindsey Gouse</td>
+                                <td>Company Profile</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td class="text-center">
+                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">
+                                        <i class="fa-regular fa-file"></i>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">Click Here</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Lindsey Gouse</td>
+                                <td>Company Profile</td>
+                                <td>null</td>
+                                <td>null</td>
+                                <td class="text-center">
+                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">
+                                        <i class="fa-regular fa-file"></i>
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                        dark:focus:text-blue-400">Click Here</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg flex-col">
         <div>
             <div>
                 <div class="border border-black rounded-lg divide-y divide-gray-200 dark:divide-neutral-700">
@@ -124,7 +195,7 @@
                 </div>
             </div>
         </div>
-
+    </div> -->
 
 </body>
 

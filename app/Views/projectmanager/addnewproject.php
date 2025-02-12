@@ -12,13 +12,13 @@
 <body class="bg-gray-100">
     <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md min-h-screen fixed">
-        <?= $this->include('admin/sidebar') ?>
+        <?= $this->include('projectmanager/sidebar') ?>
     </aside>
 
     <div class="flex-1 flex flex-col pl-64">
         <!-- Header -->
         <header class="fixed top-0 w-[calc(100%-16rem)] shadow-md z-50">
-            <?= $this->include('admin/header') ?>
+            <?= $this->include('projectmanager/header') ?>
         </header>
     </div>
 

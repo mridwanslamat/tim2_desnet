@@ -15,14 +15,14 @@
     </div>
 
         <!-- Dashboard -->
-        <a href="/admin/dashboard" class="flex items-center space-x-2 mt-[55px] text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
+        <a href="/admin/dashboard" class="flex items-center space-x-3 mt-[55px] text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
             <i class="fa-regular fa-calendar"></i>
             <span class="font-semibold">Dashboard</span>
         </a>
         
         <!-- Menu Items -->
         <a href="/admin/addnewproject" class="flex items-center space-x-3 text-black p-3 rounded-xl cursor-pointer hover:text-white hover:bg-blue-800 ">
-            <i class="fa-regular fa-file"></i>
+            <i class="fa-solid fa-plus"></i>
             <span class="font-semibold">Create New Project</span>
         </a>
     
