@@ -6,7 +6,20 @@ use CodeIgniter\Model;
 
 class ProjectModel extends Model
 {
-    protected $table = 'project'; // Nama tabel di database
-    protected $primaryKey = 'Id'; // Primary key
-    protected $allowedFields = ['ProjectManager', 'ProjectManagerId', 'Title', 'ClientName', 'ProjectSchedule']; // Kolom yang bisa diisi
+    protected $table = 'project';
+    protected $primaryKey = 'Id';
+    protected $allowedFields = ['ProjectManager', 'ProjectManagerId', 'Title', 'ClientName', 'ProjectSchedule', 'UATHistoryId'];
+
+    // Fungsi untuk memanggil procedure AddProject
+    public function addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule)
+    {
+        $db = \Config\Database::connect();
+        $sql = "CALL AddProject(?, ?, ?, ?)";
+        $db->query($sql, [$ProjectManager, $Title, $ClientName, $ProjectSchedule]);
+    }
+
+    public function searchProjects($keyword)
+    {
+        return $this->like('Title', $keyword)->findAll();
+    }
 }

@@ -21,80 +21,97 @@
             <?= $this->include('projectmanager/header') ?>
         </header>
     </div>
-
-    <!-- feature -->
-    <div class="mt-[125px] ml-[275px] mr-[20px] rounded-xl grid grid-cols-2">
-        <div class="px-20 bg-gray-100 ">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+    <form id="mainForm" action="" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <!-- feature -->
+        <div class="mt-[125px] ml-[275px] mr-[20px] rounded-xl grid grid-cols-2">
+            <!-- Button Save UAT Table -->
+            <div class="px-20 bg-gray-100 ">
+                <button type="submit" id="saveButton" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
         focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full 
         px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
         dark:focus:ring-blue-800">Save UAT Table</button>
-        </div>
+            </div>
 
-        <div class="px-20 bg-gray-100">
-            <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 
+            <!-- Button Generate Document -->
+            <div class="px-20 bg-gray-100">
+                <button type="submit" id="generateButton" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 
         focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full 
         px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 
         dark:focus:ring-green-800">Generate UAT Document</button>
-        </div>
-    </div>
-    <div class="bg-white mt-[25px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
-        <div>
-            <div class="border border-black rounded-lg w-full">
-                <div class="flex flex-col gap-2 w-full">
-                    <table class="min-w-full">
-                        <thead class="bg-white">
-                            <tr class="bg-blue-800 text-white">
-                                <th class="text-left p-3">No</th>
-                                <th class="text-left p-3">Feature</th>
-                                <th class="text-left p-3">Date</th>
-                                <th class="text-left w-xl p-3">Status Validation Desnet</th>
-                                <th class="text-left p-3">Status Validation Client</th>
-                                <th class="text-left p-3">Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-md divide-y divide-black">
-                            <tr>
-                                <td class="p-3">1.</td>
-                                </td>
-                                <td class="p-3">Lorem ipsum dolor sit amet</td>
-                                <td class="p-3">
-                                    <input type="date" name="UATDate" class="bg-white border text-black
-                                text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="UAT Date" required>
-                                </td>
-                                <td class="p-3">
-                                    <select name="ValidationStatus" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                        <option value="" disabled selected>Status Validation Desnet</option>
-                                        <option value="Worked">Worked</option>
-                                        <option value="Failed">Failed</option>
-                                    </select>
-                                </td>
-                                <td class="text-center p-3">
-                                    <select name="ClientFeedbackStatus" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
-                                    focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                        <option value="" disabled selected>Status Validation Client</option>
-                                        <option value="Accepted">Accepted</option>
-                                        <option value="Revision">Revision</option>
-                                    </select>
-                                </td>
-                                <td class="text-center p-3">
-                                    <form class="max-w-sm mx-auto">
-                                        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
-                                        rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700
-                                        dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-                                        dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-                                    </form>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
+        <div class="bg-white mt-[25px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
+            <div>
+                <div class="border border-black rounded-lg w-full">
+                    <div class="flex flex-col gap-2 w-full">
+                        <table class="min-w-full">
+                            <thead class="bg-white">
+                                <tr class="bg-blue-800 text-white">
+                                    <th class="text-left p-3">No</th>
+                                    <th class="text-left p-3">Feature</th>
+                                    <th class="text-left p-3">Date</th>
+                                    <th class="text-left w-xl p-3">Status Validation Desnet</th>
+                                    <th class="text-left p-3">Status Validation Client</th>
+                                    <th class="text-left p-3">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-md divide-y divide-black">
+                                <?php $no = 1; ?>
+                                <!-- Form -->
+
+                                <?php foreach ($features as $feature): ?>
+                                    <tr>
+                                        <input type="hidden" name="FeatureId[]" value="<?= $feature['Id'] ?>">
+                                        <td class="p-3"><?= $no++ ?>.</td>
+                                        </td>
+                                        <td class="p-3"><?= $feature['Feature'] ?></td>
+                                        <td class="p-3">
+                                            <input type="date" name="UATDate[]" class="bg-white border text-black
+                                        text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                placeholder="UAT Date" value="<?= $feature['UATDate'] ?>">
+                                        </td>
+                                        <td class="p-3">
+                                            <select name="ValidationStatus[]" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                <option value="" selected>Status Validation Desnet</option>
+                                                <option value="Worked" <?= $feature['ValidationStatus'] == 'Worked' ? 'selected' : '' ?>>Worked</option>
+                                                <option value="Failed" <?= $feature['ValidationStatus'] == 'Failed' ? 'selected' : '' ?>>Failed</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center p-3">
+                                            <select name="ClientFeedbackStatus[]" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                <option value="" selected>Status Validation Client</option>
+                                                <option value="Accepted" <?= $feature['ClientFeedbackStatus'] == 'Accepted' ? 'selected' : '' ?>>Accepted</option>
+                                                <option value="Revision" <?= $feature['ClientFeedbackStatus'] == 'Revision' ? 'selected' : '' ?>>Revision</option>
+                                            </select>
+                                        </td>
+                                        <td class="text-center p-3">
+                                            <textarea id="message" rows="4" name="RevisionNotes[]" class="block p-2.5 w-full text-sm text-black bg-white
+                                        rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white
+                                        dark:border-gray-600 dark:placeholder-black dark:text-black dark:focus:ring-blue-500
+                                        dark:focus:border-blue-500" placeholder="Leave a comment..."><?= $feature['RevisionNotes'] ?></textarea>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+    </form>
+    </tbody>
+    </table>
     </div>
+    </div>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('saveButton').addEventListener('click', function() {
+            document.getElementById('mainForm').action = '/project-manager/manageproject/feature-uat';
+        });
+
+        document.getElementById('generateButton').addEventListener('click', function() {
+            document.getElementById('mainForm').action = '/project-manager/manageproject/generate-document';
+        });
+    </script>
 </body>
 
 </html>

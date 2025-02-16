@@ -5,106 +5,254 @@ use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ProjectModel;
 use App\Models\HistoryModel;
+use App\Models\FeatureUATModel;
 
 class ProjectManagerController extends BaseController
 {
     protected $sessionData;
+    protected $userModel;
+    protected $projectModel;
+    protected $historyModel;
+    protected $featureModel;
 
     public function __construct()
     {
         $session = session();
         $this->sessionData = [
             'username' => $session->get('username'),
-            'level' => ($session->get('level') == 1) ? 'Admin' : 'Project Manager'
+            'level'    => ($session->get('level') == 1) ? 'Admin' : 'Project Manager'
         ];
+
+        // Inisialisasi model
+        $this->userModel    = new UserModel();
+        $this->projectModel = new ProjectModel();
+        $this->historyModel = new HistoryModel();
+        $this->featureModel = new FeatureUATModel();
     }
 
     public function index()
     {
-        return view('projectmanager/dashboard', $this->sessionData);
+        $userId = session()->get('id'); // Ambil ID user yang login
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+    
+        // Hitung total proyek yang diassign ke Project Manager
+        $totalProjects = $this->projectModel->where('ProjectManagerId', $userId)->countAllResults();
+    
+        // Hitung proyek yang sudah "Finished"
+        $finishedProjects = $this->historyModel
+            ->where('ProjectManagerId', $userId)
+            ->where('Status', 'Finish')
+            ->countAllResults();
+    
+        // Ambil proyek dengan status "On Progress" sesuai pencarian
+        if ($keyword) {
+            $historyProjects = $this->historyModel
+                ->where('ProjectManagerId', $userId)
+                ->where('Status', 'On Progress')
+                ->like('Title', $keyword) // Filter berdasarkan keyword di Title
+                ->findAll();
+        } else {
+            $historyProjects = $this->historyModel
+                ->where('ProjectManagerId', $userId)
+                ->where('Status', 'On Progress')
+                ->findAll();
+        }
+    
+        // Kirim data ke view
+        $data = [
+            'historyprojects'  => $historyProjects,
+            'totalProjects'    => $totalProjects,
+            'finishedProjects' => $finishedProjects,
+            'search'           => $keyword, // Kirimkan keyword ke view
+        ];
+    
+        return view('projectmanager/dashboard', array_merge($this->sessionData ?? [], $data));
     }
+    
+    
+    
 
     public function addNewProject()
     {
-        $userModel = new UserModel();
-        $data['projectManagers'] = $userModel->getProjectManagers();
-
-        // Gabungkan dengan sessionData untuk dikirim ke view
-        $viewData = array_merge($this->sessionData ?? [], $data);
-        
-        return view('projectmanager/addnewproject', $viewData);
+        $data['projectManagers'] = $this->userModel->getProjectManagers();
+        return view('projectmanager/addnewproject', array_merge($this->sessionData ?? [], $data));
     }
 
     public function store()
     {
-        // Proses simpan data project baru
         $session = session();
-        $projectModel = new ProjectModel();
-
+    
         // Ambil data dari form
-        $data = [
-            'ProjectManager' => $this->request->getPost('ProjectManager'),
-            'Title' => $this->request->getPost('Title'),
-            'ClientName' => $this->request->getPost('ClientName'),
-            'ProjectSchedule' => $this->request->getPost('ProjectSchedule')
-        ];
-
-        // Cek apakah ada field yang kosong
-        if (empty($data['ProjectManager']) || empty($data['Title']) || empty($data['ClientName']) || empty($data['ProjectSchedule'])) {
+        $ProjectManager   = $this->request->getPost('ProjectManager');
+        $Title           = $this->request->getPost('Title');
+        $ClientName      = $this->request->getPost('ClientName');
+        $ProjectSchedule = $this->request->getPost('ProjectSchedule');
+    
+        // Validasi input
+        if (empty($ProjectManager) || empty($Title) || empty($ClientName) || empty($ProjectSchedule)) {
             $session->setFlashdata('error', 'Semua kolom harus diisi!');
             return redirect()->back()->withInput();
         }
-
-        // Simpan ke database
-        $projectModel->insert($data);
-
-        // Set flash message sukses
-        $session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
+    
+        try {
+            // Panggil procedure untuk menyimpan data
+            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule);
+            $session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            $session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    
         return redirect()->back();
     }
 
     public function listProject()
     {
-        $session = session();
-        $userId = $session->get('id'); // Ambil ID user yang login
-
-        // Query untuk mengambil data project yang dikelola oleh PM yang login
-        $manageprojectModel = new ProjectModel();
-        $data['projects'] = $manageprojectModel->where('ProjectManagerId', $userId)->findAll();
-
-        // Gabungkan dengan sessionData untuk dikirim ke view
-        $viewData = array_merge($this->sessionData ?? [], $data);
-        
-        return view('projectmanager/listproject', $viewData);
+        $userId = session()->get('id'); // Ambil ID user yang login
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+    
+        if ($keyword) {
+            $projects = $this->projectModel
+                ->where('ProjectManagerId', $userId)
+                ->like('Title', $keyword)
+                ->findAll();
+        } else {
+            $projects = $this->projectModel
+                ->where('ProjectManagerId', $userId)
+                ->findAll();
+        }
+    
+        // Kirimkan nilai pencarian ke view
+        $data = [
+            'projects' => $projects,
+            'search'   => $keyword, // Tambahkan ini agar bisa digunakan di view
+        ];
+    
+        return view('projectmanager/listproject', array_merge($this->sessionData ?? [], $data));
     }
+    
+    
 
-    public function manageProject()
+    public function manageProject($projectId)
     {
-        // $session = session();
-        // $userId = $session->get('id'); // Ambil ID user yang login
+        $project = $this->projectModel->find($projectId);
 
-        // // Query untuk mengambil data project yang dikelola oleh PM yang login
-        // $manageprojectModel = new ProjectManagementModel();
-        // $data['projects'] = $manageprojectModel->where('ProjectManagerId', $userId)->findAll();
+        if (!$project) {
+            return redirect()->to('project-manager/listproject')->with('error', 'Project not found!');
+        }
 
-        // // Gabungkan dengan sessionData untuk dikirim ke view
-        // $viewData = array_merge($this->sessionData ?? [], $data);
-        
-        return view('projectmanager/manageproject', $this->sessionData);
+        $features = $this->featureModel->where('ProjectId', $projectId)->findAll();
+
+        return view('projectmanager/manageproject', array_merge($this->sessionData ?? [], [
+            'project' => $project,
+            'features' => $features
+        ]));
     }
 
+    // Method untuk menyimpan fitur
+    public function saveFeatures()
+    {
+        $session   = session();
+        $projectId = $this->request->getPost('ProjectId');
+        $features  = $this->request->getPost('Feature'); // Diambil dari input name="Feature[]" pada manageproject.php
+
+        // Pastikan fitur dikirim sebagai array
+        if (!is_array($features) || empty($features)) {
+            $session->setFlashdata('error', 'Fitur tidak boleh kosong!');
+            return redirect()->back();
+        }
+
+        try {
+            foreach ($features as $feature) {
+                $this->featureModel->save([
+                    'ProjectId' => $projectId,
+                    'Feature'   => $feature
+                ]);
+            }
+
+            $session->setFlashdata('success', 'Fitur berhasil disimpan!');
+        } catch (\Exception $e) {
+            $session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+
+        return redirect()->to('/project-manager/manageproject/feature-uat/' . $projectId);
+    }
+
+    // Method untuk mengupdate fitur tersimpan
+    public function updateFeature($id)
+    {
+        $feature = $this->request->getPost('Feature');
+
+        if (empty($feature)) {
+            return redirect()->back()->with('error', 'Fitur tidak boleh kosong!');
+        }
+
+        $this->featureModel->update($id, ['Feature' => $feature]);
+        return redirect()->back()->with('success', 'Fitur berhasil diupdate!');
+    }
+
+    // Method untuk menghapus fitur tersimpan
+    public function deleteFeature($id)
+    {
+        $this->featureModel->delete($id);
+        return redirect()->back()->with('success', 'Fitur berhasil dihapus!');
+    }
+
+    // Method untuk menampilkan dan mengupdate fitur UAT yang sudah disimpan
+    public function featureUAT($projectId = null)
+    {
+        if($this->request->getMethod() == 'PUT') {
+            $features = $this->request->getPost();
+            foreach ($features['FeatureId'] as $key => $featureId) {
+                $this->featureModel->update($featureId, [
+                    'UATDate'            => $features['UATDate'][$key],
+                    'ValidationStatus'   => $features['ValidationStatus'][$key],
+                    'ClientFeedbackStatus'=> $features['ClientFeedbackStatus'][$key],
+                    'RevisionNotes'       => $features['RevisionNotes'][$key]
+                ]);
+            }
+            return redirect()->back()->with('success', 'Data UAT berhasil disimpan!');
+        }
+        
+        $data['features'] = $this->featureModel->where('ProjectId', $projectId)->findAll();
+        return view('projectmanager/featureuat', array_merge($this->sessionData ?? [], $data));
+    }
+
+    // Method untuk menampilkan history project
     public function historyProject()
     {
-        $session = session();
-        $userId = $session->get('id'); // Ambil ID user yang login
-
-        // Query untuk mengambil data history project yang dikelola oleh PM yang login
-        $historyModel = new HistoryModel();
-        $data['historyprojects'] = $historyModel->where('ProjectManagerId', $userId)->findAll();
-
-        // Gabungkan dengan sessionData untuk dikirim ke view
-        $viewData = array_merge($this->sessionData ?? [], $data);
+        $userId = session()->get('id'); // Ambil ID user yang login
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+    
+        if ($keyword) {
+            $historyProjects = $this->historyModel
+                ->where('ProjectManagerId', $userId)
+                ->like('Title', $keyword)
+                ->findAll();
+        } else {
+            $historyProjects = $this->historyModel
+                ->where('ProjectManagerId', $userId)
+                ->findAll();
+        }
+    
+        $data = [
+            'historyprojects' => $historyProjects,
+            'search'          => $keyword, // Kirimkan keyword ke view
+        ];
+    
+        return view('projectmanager/history', array_merge($this->sessionData ?? [], $data));
+    }
+    
+    // Method untuk mengupdate history project
+    public function updateHistoryProject($Id = null)
+    {
+        if ($this->request->getMethod() == 'PUT') {
+            $this->historyModel->update($this->request->getPost('Id'), [
+                'Status'        => $this->request->getPost('ProjectStatus')
+            ]);
+            return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
+        }
         
-        return view('projectmanager/history', $viewData);
+        $data['history'] = $this->historyModel->find($Id);
+        return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
     }
 }

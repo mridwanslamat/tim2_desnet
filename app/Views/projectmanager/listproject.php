@@ -23,40 +23,50 @@
   </div>
 
   <!-- List -->
-  <div class="bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
+  <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
     <div>
-      <div class="border border-black rounded-lg w-full">
-        <div class="py-3 px-4 rounded-lg">
+      <div class="border border-black rounded-lg  w-full">
+        <form method="GET" action="<?= base_url('/project-manager/listproject') ?>" class="py-3 px-4 rounded-lg">
           <div class="border border-black rounded-lg relative max-w-xs">
-            <input type="text" class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm 
-                               focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
-                               dark:bg-gray-100 dark:border-gray-600 dark:text-black dark:placeholder-gray-700 dark:focus:ring-gray-500"
+            <input type="text" name="search" value="<?= isset($search) ? esc($search) : '' ?>"
+              class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm 
+               focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+               dark:bg-gray-100 dark:border-gray-600 dark:text-black dark:placeholder-gray-700 dark:focus:ring-gray-500"
               placeholder="Search Project Title">
             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
           </div>
-        </div>
+        </form>
+
         <div class="flex flex-col gap-2 w-full">
           <table class="min-w-full">
             <thead class="bg-white">
               <tr class="border border-black bg-blue-800 text-white">
                 <th class="text-left p-3">Project Title</th>
                 <th class="text-left p-3">Project Schedule</th>
-                <th class="text-center p-3">Manage</th>
+                <th class="text-center p-3">Manage Feature</th>
+                <th class="text-center p-3">Manage UAT</th>
               </tr>
             </thead>
             <tbody class="text-md divide-y divide-black">
               <?php foreach ($projects as $project): ?>
-              <tr>
-                <td class="p-3"><?= $project['Title']?></td>
-                <td class="p-3"><?= $project['ProjectSchedule']?></td>
-                <td class="text-center p-3">
-                  <a href="/project-manager/manageproject" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
-                  hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
-                  dark:focus:text-blue-400">Click Here</a>
-                </td>
-              </tr>
+                <tr>
+                  <td class="p-3"><?= $project['Title'] ?></td>
+                  <td class="p-3"><?= $project['ProjectSchedule'] ?></td>
+                  <td class="text-center p-3">
+                    <a href="<?= site_url('project-manager/manageproject/' . $project['Id']) ?>"
+                      class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                    hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                    dark:focus:text-blue-400">Click Here</a>
+                  </td>
+                  <td class="text-center p-3">
+                    <a href="<?= site_url('project-manager/manageproject/feature-uat/' . $project['Id']) ?>"
+                      class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                    hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                    dark:focus:text-blue-400">Click Here</a>
+                  </td>
+                </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
@@ -66,4 +76,5 @@
   </div>
 
 </body>
+
 </html>

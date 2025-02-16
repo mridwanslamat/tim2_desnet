@@ -7,89 +7,128 @@ use App\Models\UserModel;
 use App\Models\ProjectModel;
 use App\Models\HistoryModel;
 
-
 class AdminController extends BaseController
 {
+    protected $session;
     protected $sessionData;
+    protected $userModel;
+    protected $projectModel;
+    protected $historyModel;
 
     public function __construct()
     {
-        $session = session();
+        $this->session = session();
+        $this->userModel = new UserModel();
+        $this->projectModel = new ProjectModel();
+        $this->historyModel = new HistoryModel();
+
         $this->sessionData = [
-            'username' => $session->get('username'),
-            'level' => ($session->get('level') == 1) ? 'Admin' : 'Project Manager'
+            'username' => $this->session->get('username'),
+            'level' => ($this->session->get('level') == 1) ? 'Admin' : 'Project Manager'
         ];
     }
 
     public function index()
     {
-        return view('admin/dashboard', $this->sessionData);
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+    
+        // Hitung total proyek yang diassign ke Project Manager
+        $totalProjects = $this->projectModel->countAllResults();
+    
+        // Hitung proyek yang sudah "Finished"
+        $finishedProjects = $this->historyModel
+            ->where('Status', 'Finish')
+            ->countAllResults();
+    
+        // Ambil proyek dengan status "On Progress" sesuai pencarian
+        if ($keyword) {
+            $historyProjects = $this->historyModel
+                ->where('Status', 'On Progress')
+                ->like('Title', $keyword) // Filter berdasarkan keyword di Title
+                ->findAll();
+        } else {
+            $historyProjects = $this->historyModel
+                ->where('Status', 'On Progress')
+                ->findAll();
+        }
+    
+        // Kirim data ke view
+        $data = [
+            'historyprojects'  => $historyProjects,
+            'totalProjects'    => $totalProjects,
+            'finishedProjects' => $finishedProjects,
+            'search'           => $keyword, // Kirimkan keyword ke view
+        ];
+    
+        return view('admin/dashboard', array_merge($this->sessionData ?? [], $data));
     }
 
     public function addNewProject()
     {
-        $userModel = new UserModel();
-        $data['projectManagers'] = $userModel->getProjectManagers();
-
-        // Gabungkan dengan sessionData untuk dikirim ke view
-        $viewData = array_merge($this->sessionData ?? [], $data);
+        $data['projectManagers'] = $this->userModel->getProjectManagers();
         
-        return view('admin/addnewproject', $viewData);
+        return view('admin/addnewproject', array_merge($this->sessionData ?? [], $data));;
     }
 
     public function store()
     {
-        // Proses simpan data project baru
-        $session = session();
-        $projectModel = new ProjectModel();
-
         // Ambil data dari form
-        $data = [
-            'ProjectManager' => $this->request->getPost('ProjectManager'),
-            'Title' => $this->request->getPost('Title'),
-            'ClientName' => $this->request->getPost('ClientName'),
-            'ProjectSchedule' => $this->request->getPost('ProjectSchedule')
-        ];
+        $ProjectManager = $this->request->getPost('ProjectManager');
+        $Title = $this->request->getPost('Title');
+        $ClientName = $this->request->getPost('ClientName');
+        $ProjectSchedule = $this->request->getPost('ProjectSchedule');
 
-        // Cek apakah ada field yang kosong
-        if (empty($data['ProjectManager']) || empty($data['Title']) || empty($data['ClientName']) || empty($data['ProjectSchedule'])) {
-            $session->setFlashdata('error', 'Semua kolom harus diisi!');
+        // Validasi input
+        if (empty($ProjectManager) || empty($Title) || empty($ClientName) || empty($ProjectSchedule)) {
+            $this->session->setFlashdata('error', 'Semua kolom harus diisi!');
             return redirect()->back()->withInput();
         }
 
-        // Simpan ke database
-        $projectModel->insert($data);
+        try {
+            // Panggil procedure untuk menyimpan data
+            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule);
+            
+            // Set flash message sukses
+            $this->session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            // Set flash message error jika terjadi kesalahan
+            $this->session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
 
-        // Set flash message sukses
-        $session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
         return redirect()->back();
     }
 
     public function historyProject()
     {
-        $session = session();
-
-        // Query untuk mengambil data history project yang dikelola oleh PM yang login
-        $historyModel = new HistoryModel();
-        $data['historyprojects'] = $historyModel->findAll();
-
-        // Gabungkan dengan sessionData untuk dikirim ke view
-        $viewData = array_merge($this->sessionData ?? [], $data);
-        
-        return view('admin/history', $viewData);
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+    
+        if ($keyword) {
+            $historyProjects = $this->historyModel
+                ->like('Title', $keyword)
+                ->findAll();
+        } else {
+            $historyProjects = $this->historyModel
+                ->findAll();
+        }
+    
+        $data = [
+            'historyprojects' => $historyProjects,
+            'search'          => $keyword, // Kirimkan keyword ke view
+        ];
+    
+        return view('admin/history', array_merge($this->sessionData ?? [], $data));
     }
 
-    public function updateHistoryProject()
-    {
-        $session = session();
-
-        // // Query untuk mengambil data history project yang dikelola oleh PM yang login
-        // $historyModel = new HistoryModel();
-        // $data['historyprojects'] = $historyModel->findAll();
-
-        // // Gabungkan dengan sessionData untuk dikirim ke view
-        // $viewData = array_merge($this->sessionData ?? [], $data);
+    public function updateHistoryProject($Id = null)
+    {   
+        if ($this->request->getMethod() == 'PUT') {
+            $this->historyModel->update($this->request->getPost('Id'), [
+                'Status'        => $this->request->getPost('ProjectStatus')
+            ]);
+            return redirect()->to('/admin/history')->with('success', 'Data berhasil diupdate!');
+        }
         
-        return view('admin/updateproject', $this->sessionData);
+        $data['history'] = $this->historyModel->find($Id);
+        return view('admin/updateproject', array_merge($this->sessionData ?? [], $data));
     }
 }

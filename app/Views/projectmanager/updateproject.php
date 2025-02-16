@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desnet | Admin</title>
+    <title>Desnet | Project Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="bg-gray-100"> 
         <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md min-h-screen fixed">
-            <?= $this->include('admin/sidebar') ?>
+            <?= $this->include('projectmanager/sidebar') ?>
         </aside>
 
         <div class="flex-1 flex flex-col pl-64">
@@ -24,7 +24,7 @@
         <div class="justify-center flex bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg grid grid-cols-2">
             <div class="my-auto text-black text-center text-3xl font-sans font-bold">
                     <h2> Update Project </h2>
-                        <form action="/admin/history/updateproject/save" method="post" enctype="multipart/form-data" class="max-w-sm mx-auto">
+                        <form action="/project-manager/history/updateproject/save" method="post" enctype="multipart/form-data" class="max-w-sm mx-auto">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="Id" value="<?= $history['Id'] ?>"> 
                             
