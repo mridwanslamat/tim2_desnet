@@ -256,69 +256,18 @@ class ProjectManagerController extends BaseController
     }
     
     // Method untuk mengupdate history project
-    // public function updateHistoryProject($Id = null)
-    // {
-    //     if ($this->request->getMethod() == 'PUT') {
-    //         $this->historyModel->update($this->request->getPost('Id'), [
-    //             'Status'        => $this->request->getPost('ProjectStatus')
-    //         ]);
-    //         return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
-    //     }
-        
-    //     $data['history'] = $this->historyModel->find($Id);
-    //     return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
-    // }
     public function updateHistoryProject($Id = null)
     {
-        // Cek apakah request menggunakan POST
-        if ($this->request->getMethod() === 'post') {
-            // Ambil data dari request
-            $status = $this->request->getPost('ProjectStatus');
-
-            // Cek apakah ada file yang diunggah
-            $file = $this->request->getFile('document');
-            $documentPath = null;
-
-            if ($file && $file->isValid() && !$file->hasMoved()) {
-                // Validasi file harus PDF
-                if ($file->getExtension() !== 'pdf') {
-                    return redirect()->back()->with('error', 'File harus dalam format PDF.');
-                }
-
-                // Generate nama unik untuk file
-                $newName = $file->getRandomName();
-                
-                // Pindahkan file ke folder uploads
-                $file->move('uploads', $newName);
-
-                // Simpan path file ke dalam variabel
-                $documentPath = 'uploads/' . $newName;
-            }
-
-            // Ambil data lama dari database
-            $history = $this->historyModel->find($Id);
-
-            if (!$history) {
-                return redirect()->back()->with('error', 'Data tidak ditemukan.');
-            }
-
-            // Gunakan path lama jika tidak ada file baru
-            $finalDocumentPath = $documentPath ?? $history['Document'];
-
-            // Update database
-            $this->historyModel->update($Id, [
-                'Status'   => $status,
-                'Document' => $finalDocumentPath
+        if ($this->request->getMethod() == 'PUT') {
+            $this->historyModel->update($this->request->getPost('Id'), [
+                'Status'        => $this->request->getPost('ProjectStatus')
             ]);
-
             return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
         }
-
-        // Jika request bukan POST, tampilkan form update
+        
         $data['history'] = $this->historyModel->find($Id);
         return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
     }
-
 
     // Method untuk generate UAT
     public function generatePDF($projectId)
