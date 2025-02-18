@@ -24,7 +24,7 @@
     <!-- Manage Project Section -->
     <div class="bg-white mt-[125px] ml-[275px] mr-[20px] p-6 rounded-xl shadow-lg">
         <h2 class="text-3xl font-bold text-center">Manage Features</h2>
-        <p class="mt-[5px] text-gray-400 text-center text-sm"><?= esc($project['Title'])?></p>
+        <p class="mt-[5px] text-gray-400 text-center text-lg"><?= esc($project['Title'])?></p>
 
         <form action="/project-manager/manageproject/save" method="post" class="mt-6">
             <input type="hidden" name="ProjectId" value="<?= esc($project['Id']) ?>">

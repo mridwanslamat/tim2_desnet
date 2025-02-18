@@ -7,6 +7,9 @@ use App\Models\ProjectModel;
 use App\Models\HistoryModel;
 use App\Models\FeatureUATModel;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 class ProjectManagerController extends BaseController
 {
     protected $sessionData;
@@ -85,18 +88,19 @@ class ProjectManagerController extends BaseController
         // Ambil data dari form
         $ProjectManager   = $this->request->getPost('ProjectManager');
         $Title           = $this->request->getPost('Title');
+        $ClientCompany  = $this->request->getPost('ClientCompany');
         $ClientName      = $this->request->getPost('ClientName');
         $ProjectSchedule = $this->request->getPost('ProjectSchedule');
     
         // Validasi input
-        if (empty($ProjectManager) || empty($Title) || empty($ClientName) || empty($ProjectSchedule)) {
+        if (empty($ProjectManager) || empty($Title) || empty($ClientCompany) || empty($ClientName) || empty($ProjectSchedule)) {
             $session->setFlashdata('error', 'Semua kolom harus diisi!');
             return redirect()->back()->withInput();
         }
     
         try {
             // Panggil procedure untuk menyimpan data
-            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule);
+            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule);
             $session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
         } catch (\Exception $e) {
             $session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -213,7 +217,16 @@ class ProjectManagerController extends BaseController
             return redirect()->back()->with('success', 'Data UAT berhasil disimpan!');
         }
         
+        // Ambil data proyek dan fitur UAT berdasarkan ProjectId
         $data['features'] = $this->featureModel->where('ProjectId', $projectId)->findAll();
+
+        // Ambil Informasi Project
+        $data['project'] = $this->projectModel->find($projectId);
+
+        if (!$data['project']) {
+            return redirect()->back()->with('error', 'Project tidak ditemukan.');
+        }
+        
         return view('projectmanager/featureuat', array_merge($this->sessionData ?? [], $data));
     }
 
@@ -243,16 +256,104 @@ class ProjectManagerController extends BaseController
     }
     
     // Method untuk mengupdate history project
+    // public function updateHistoryProject($Id = null)
+    // {
+    //     if ($this->request->getMethod() == 'PUT') {
+    //         $this->historyModel->update($this->request->getPost('Id'), [
+    //             'Status'        => $this->request->getPost('ProjectStatus')
+    //         ]);
+    //         return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
+    //     }
+        
+    //     $data['history'] = $this->historyModel->find($Id);
+    //     return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
+    // }
     public function updateHistoryProject($Id = null)
     {
-        if ($this->request->getMethod() == 'PUT') {
-            $this->historyModel->update($this->request->getPost('Id'), [
-                'Status'        => $this->request->getPost('ProjectStatus')
+        // Cek apakah request menggunakan POST
+        if ($this->request->getMethod() === 'post') {
+            // Ambil data dari request
+            $status = $this->request->getPost('ProjectStatus');
+
+            // Cek apakah ada file yang diunggah
+            $file = $this->request->getFile('document');
+            $documentPath = null;
+
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                // Validasi file harus PDF
+                if ($file->getExtension() !== 'pdf') {
+                    return redirect()->back()->with('error', 'File harus dalam format PDF.');
+                }
+
+                // Generate nama unik untuk file
+                $newName = $file->getRandomName();
+                
+                // Pindahkan file ke folder uploads
+                $file->move('uploads', $newName);
+
+                // Simpan path file ke dalam variabel
+                $documentPath = 'uploads/' . $newName;
+            }
+
+            // Ambil data lama dari database
+            $history = $this->historyModel->find($Id);
+
+            if (!$history) {
+                return redirect()->back()->with('error', 'Data tidak ditemukan.');
+            }
+
+            // Gunakan path lama jika tidak ada file baru
+            $finalDocumentPath = $documentPath ?? $history['Document'];
+
+            // Update database
+            $this->historyModel->update($Id, [
+                'Status'   => $status,
+                'Document' => $finalDocumentPath
             ]);
+
             return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
         }
-        
+
+        // Jika request bukan POST, tampilkan form update
         $data['history'] = $this->historyModel->find($Id);
         return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
+    }
+
+
+    // Method untuk generate UAT
+    public function generatePDF($projectId)
+    {
+        // Ambil data proyek dan fitur UAT berdasarkan ID proyek
+        $project = $this->projectModel->find($projectId);
+        $features = $this->featureModel->where('ProjectId', $projectId)->findAll();
+
+        if (!$project) {
+            return redirect()->to('/project-manager/listproject')->with('error', 'Project not found!');
+        }
+
+        // Load view ke dalam variabel
+        $data = [
+            'project' => $project,
+            'features' => $features
+        ];
+
+        $html = view('projectmanager/pdf_view', $data);
+
+        // Konfigurasi DomPDF
+        $options = new Options();
+        $options->set('defaultFont', 'Courier');
+        $dompdf = new Dompdf($options);
+        
+        // Load HTML ke DomPDF
+        $dompdf->loadHtml($html);
+        
+        // Set ukuran kertas dan orientasi
+        $dompdf->setPaper('letter', 'landscape');
+        
+        // Render PDF
+        $dompdf->render();
+        
+        // Download PDF
+        $dompdf->stream('Project_UAT_Report.pdf', ['Attachment' => 0]); // 0 = tampil di browser, 1 = langsung download
     }
 }

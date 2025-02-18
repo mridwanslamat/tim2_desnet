@@ -11,11 +11,11 @@ class ProjectModel extends Model
     protected $allowedFields = ['ProjectManager', 'ProjectManagerId', 'Title', 'ClientName', 'ProjectSchedule', 'UATHistoryId'];
 
     // Fungsi untuk memanggil procedure AddProject
-    public function addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule)
+    public function addProjectUsingProcedure($ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule)
     {
         $db = \Config\Database::connect();
-        $sql = "CALL AddProject(?, ?, ?, ?)";
-        $db->query($sql, [$ProjectManager, $Title, $ClientName, $ProjectSchedule]);
+        $sql = "CALL AddProject(?, ?, ?, ?, ?)";
+        $db->query($sql, [$ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule]);
     }
 
     public function searchProjects($keyword)

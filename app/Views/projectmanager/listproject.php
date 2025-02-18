@@ -44,6 +44,7 @@
             <thead class="bg-white">
               <tr class="border border-black bg-blue-800 text-white">
                 <th class="text-left p-3">Project Title</th>
+                <th class="text-left p-3">Client Company</th>
                 <th class="text-left p-3">Project Schedule</th>
                 <th class="text-center p-3">Manage Feature</th>
                 <th class="text-center p-3">Manage UAT</th>
@@ -53,6 +54,7 @@
               <?php foreach ($projects as $project): ?>
                 <tr>
                   <td class="p-3"><?= $project['Title'] ?></td>
+                  <td class="p-3"><?= $project['ClientCompany']?></td>
                   <td class="p-3"><?= $project['ProjectSchedule'] ?></td>
                   <td class="text-center p-3">
                     <a href="<?= site_url('project-manager/manageproject/' . $project['Id']) ?>"

@@ -10,7 +10,6 @@ class AuthController extends Controller
     public function login()
     {   
         return view('auth/login'); // Tampilkan halaman login
-        // return view('projectmanager/featureuat');
     }
 
     public function auth()
@@ -20,6 +19,7 @@ class AuthController extends Controller
     
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password'); // Pastikan hashing sama dengan yang di database
+        $password = sha1(sha1(md5($password)));
         
         $user = $userModel->where('username', $username)->first();
     

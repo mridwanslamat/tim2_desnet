@@ -21,25 +21,34 @@
             <?= $this->include('projectmanager/header') ?>
         </header>
     </div>
+
+    <div class="mt-[125px] ml-[275px] mr-[20px] text-xl font-bold text-center underline">
+        <h2>
+            Project Title: <?= esc($project['Title']) ?>
+        </h2>
+    </div>
+
     <form id="mainForm" action="" method="post">
         <input type="hidden" name="_method" value="PUT">
         <!-- feature -->
-        <div class="mt-[125px] ml-[275px] mr-[20px] rounded-xl grid grid-cols-2">
+        <div class="mt-[25px] ml-[275px] mr-[20px] rounded-xl flex justify-between bg-gray-100 p-5 gap-40">
             <!-- Button Save UAT Table -->
-            <div class="px-20 bg-gray-100 ">
-                <button type="submit" id="saveButton" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
-        focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full 
+            <button type="submit" id="saveButton"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
+        focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-1/2 
         px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-        dark:focus:ring-blue-800">Save UAT Table</button>
-            </div>
+        dark:focus:ring-blue-800">
+                Save UAT Table
+            </button>
 
-            <!-- Button Generate Document -->
-            <div class="px-20 bg-gray-100">
-                <button type="submit" id="generateButton" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 
-        focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full 
-        px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 
-        dark:focus:ring-green-800">Generate UAT Document</button>
-            </div>
+            <!-- Button Generate PDF -->
+            <a href="<?= isset($project['Id']) ? base_url('project-manager/generate-pdf/' . $project['Id']) : '#' ?>"
+                class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 
+        focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-1/2 
+        px-5 py-2.5 text-center inline-block dark:bg-green-600 dark:hover:bg-green-700 
+        dark:focus:ring-green-800">
+                Generate PDF
+            </a>
         </div>
         <div class="bg-white mt-[25px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
             <div>
@@ -88,10 +97,8 @@
                                             </select>
                                         </td>
                                         <td class="text-center p-3">
-                                            <textarea id="message" rows="4" name="RevisionNotes[]" class="block p-2.5 w-full text-sm text-black bg-white
-                                        rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white
-                                        dark:border-gray-600 dark:placeholder-black dark:text-black dark:focus:ring-blue-500
-                                        dark:focus:border-blue-500" placeholder="Leave a comment..."><?= $feature['RevisionNotes'] ?></textarea>
+                                            <textarea id="message" rows="4" name="RevisionNotes[]" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
+                                    focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Leave a comment..."><?= $feature['RevisionNotes'] ?></textarea>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -106,10 +113,6 @@
     <script>
         document.getElementById('saveButton').addEventListener('click', function() {
             document.getElementById('mainForm').action = '/project-manager/manageproject/feature-uat';
-        });
-
-        document.getElementById('generateButton').addEventListener('click', function() {
-            document.getElementById('mainForm').action = '/project-manager/manageproject/generate-document';
         });
     </script>
 </body>

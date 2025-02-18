@@ -23,7 +23,7 @@
     </div>
 
     <!-- Add New Project -->
-    <div class="justify-center flex bg-white mt-[125px] ml-[275px] mr-[20px] h-[585px] rounded-xl shadow-lg">
+    <div class="justify-center flex bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg">
         <div class="mt-8 text-black text-center text-3xl font-sans font-bold">
             <h2> New Project </h2>
             <div class="mt-8 items-center flex justify-center">
@@ -54,16 +54,19 @@
                 <input type="text" name="Title" class="bg-white border text-black
                         text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Title" required>
 
+                <input type="text" name="ClientCompany" class="bg-white border text-black
+                        text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Client Company" required>
+
                 <input type="text" name="ClientName" class="bg-white border text-black
                         text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Client Name" required>
 
                 <input type="date" name="ProjectSchedule" class="bg-white border text-black
-                        text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-10" placeholder="Project Schedule" required>
+                        text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-5" placeholder="Project Schedule" required>
 
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 
                         focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full 
                         px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-                        dark:focus:ring-blue-800">Add New Project</button>
+                        dark:focus:ring-blue-800 mb-5">Add New Project</button>
             </form>
         </div>
     </div>

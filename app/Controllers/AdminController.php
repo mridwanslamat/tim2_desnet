@@ -75,18 +75,19 @@ class AdminController extends BaseController
         // Ambil data dari form
         $ProjectManager = $this->request->getPost('ProjectManager');
         $Title = $this->request->getPost('Title');
+        $ClientCompany  = $this->request->getPost('ClientCompany');
         $ClientName = $this->request->getPost('ClientName');
         $ProjectSchedule = $this->request->getPost('ProjectSchedule');
 
         // Validasi input
-        if (empty($ProjectManager) || empty($Title) || empty($ClientName) || empty($ProjectSchedule)) {
+        if (empty($ProjectManager) || empty($Title) || empty($ClientCompany) || empty($ClientName) || empty($ProjectSchedule)) {
             $this->session->setFlashdata('error', 'Semua kolom harus diisi!');
             return redirect()->back()->withInput();
         }
 
         try {
             // Panggil procedure untuk menyimpan data
-            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientName, $ProjectSchedule);
+            $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule);
             
             // Set flash message sukses
             $this->session->setFlashdata('success', 'Proyek berhasil ditambahkan!');

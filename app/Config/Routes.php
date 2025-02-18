@@ -34,3 +34,6 @@ $routes->post('/project-manager/manageproject/update/(:num)', 'ProjectManagerCon
 $routes->get('/project-manager/manageproject/delete/(:num)', 'ProjectManagerController::deleteFeature/$1');
 $routes->get('/project-manager/manageproject/feature-uat/(:num)', 'ProjectManagerController::featureUAT/$1');
 $routes->put('/project-manager/manageproject/feature-uat', 'ProjectManagerController::featureUAT');
+
+// Generate UAT
+$routes->get('project-manager/generate-pdf/(:num)', 'ProjectManagerController::generatePDF/$1');
