@@ -259,15 +259,46 @@ class ProjectManagerController extends BaseController
     public function updateHistoryProject($Id = null)
     {
         if ($this->request->getMethod() == 'PUT') {
-            $this->historyModel->update($this->request->getPost('Id'), [
-                'Status'        => $this->request->getPost('ProjectStatus')
+            $Id = $this->request->getPost('Id');
+            
+            $pdfFile = $this->request->getFile('Document');
+            $uploadPath = WRITEPATH . 'uploads';
+
+            $history = $this->historyModel->find($Id);
+            if ($pdfFile && $pdfFile->isValid()) {
+                $newName = $history['Title'] . '_' . $history['DateAdded'] . '.pdf';
+                $pdfFile->move($uploadPath, $newName);
+            }
+
+            $this->historyModel->update($Id, [
+                'Status'        => $this->request->getPost('ProjectStatus'),
+                'Document'      => $newName ?? $history['Document']
             ]);
+
             return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
         }
         
         $data['history'] = $this->historyModel->find($Id);
         return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
     }
+
+    // Method untuk download file
+    public function download($Id)
+{
+    $history = $this->historyModel->find($Id);
+
+    if (!$history || empty($history['Document'])) {
+        return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
+    }
+
+    $filePath = WRITEPATH . 'uploads/' . $history['Document'];
+
+    if (!file_exists($filePath)) {
+        return redirect()->back()->with('error', 'File tidak ditemukan.');
+    }
+
+    return $this->response->download($filePath, null)->setFileName($history['Document']);
+}
 
     // Method untuk generate UAT
     public function generatePDF($projectId)

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desnet | Project Manager</title>
+    <title>Desnet | Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -73,11 +73,11 @@
                                         </span>
                                     </td>
                                     <td class="text-center p-3">
-                                        <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                        <a href="<?= base_url('/admin/download/' . $history['Id']) ?>" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
                                         hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
                                         dark:focus:text-blue-400">
-                                            <i class="fa-regular fa-file"></i>
-                                        </button>
+                                            <i class="fa-regular fa-file" title="<?= $history['Document'] ?>"></i>
+                                        </a>
                                     </td>
                                     <td class="text-center p-3">
                                         <a href="/admin/history/updateproject/<?= $history['Id'] ?>" type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600

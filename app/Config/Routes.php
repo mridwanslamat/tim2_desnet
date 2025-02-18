@@ -17,6 +17,7 @@ $routes->post('/admin/addnewproject', 'AdminController::store', ['filter' => 'au
 $routes->get('/admin/history', 'AdminController::historyProject', ['filter'=>'auth']);
 $routes->get('/admin/history/updateproject/(:num)', 'AdminController::updateHistoryProject/$1', ['filter'=>'auth']);
 $routes->put('/admin/history/updateproject/save', 'AdminController::updateHistoryProject', ['filter'=>'auth']);
+$routes->get('/admin/download/(:num)', 'AdminController::download/$1');
 
 $routes->get('/project-manager/dashboard', 'ProjectManagerController::index', ['filter'=>'auth']);
 $routes->get('/project-manager/addnewproject', 'ProjectManagerController::addNewProject', ['filter'=>'auth']);
@@ -26,6 +27,7 @@ $routes->get('/project-manager/manageproject', 'ProjectManagerController::manage
 $routes->get('/project-manager/history', 'ProjectManagerController::historyProject', ['filter'=>'auth']);
 $routes->get('/project-manager/history/updateproject/(:num)', 'ProjectManagerController::updateHistoryProject/$1', ['filter'=>'auth']);
 $routes->put('/project-manager/history/updateproject/save', 'ProjectManagerController::updateHistoryProject', ['filter'=>'auth']);
+$routes->get('/project-manager/download/(:num)', 'ProjectManagerController::download/$1');
 
 // Fitur
 $routes->get('/project-manager/manageproject/(:num)', 'ProjectManagerController::manageProject/$1');
@@ -37,3 +39,4 @@ $routes->put('/project-manager/manageproject/feature-uat', 'ProjectManagerContro
 
 // Generate UAT
 $routes->get('project-manager/generate-pdf/(:num)', 'ProjectManagerController::generatePDF/$1');
+

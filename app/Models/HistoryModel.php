@@ -15,4 +15,3 @@ class HistoryModel extends Model
     protected $createdField  = '';
     protected $updatedField  = 'DateAdded';
 }
-

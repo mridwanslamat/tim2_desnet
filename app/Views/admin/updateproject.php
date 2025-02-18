@@ -16,7 +16,7 @@
         <div class="flex-1 flex flex-col pl-64">
             <!-- Header -->
             <header class="fixed top-0 w-[calc(100%-16rem)] shadow-md z-50">
-                <?= $this->include('projectmanager/header') ?>
+                <?= $this->include('admin/header') ?>
             </header>
         </div>
 
