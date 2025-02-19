@@ -36,6 +36,7 @@ class ProjectManagerController extends BaseController
         $this->docsHistoryModel = new DocsHistoryModel();
     }
 
+    // Method untuk menampilkan halaman dashboard
     public function index()
     {
         $userId = session()->get('id'); // Ambil ID user yang login
@@ -81,6 +82,7 @@ class ProjectManagerController extends BaseController
         return view('projectmanager/addnewproject', array_merge($this->sessionData ?? [], $data));
     }
 
+    // Method untuk menyimpan data project baru
     public function store()
     {
         $session = session();
@@ -108,7 +110,8 @@ class ProjectManagerController extends BaseController
     
         return redirect()->back();
     }
-
+    
+    // Method untuk menampilkan daftar project
     public function listProject()
     {
         $userId = session()->get('id'); // Ambil ID user yang login
@@ -134,6 +137,7 @@ class ProjectManagerController extends BaseController
         return view('projectmanager/listproject', array_merge($this->sessionData ?? [], $data));
     }
 
+    // Method untuk mengelola fitur project
     public function manageProject($projectId)
     {
         $project = $this->projectModel->find($projectId);
