@@ -84,7 +84,6 @@
                             <tr class="border border-black bg-blue-800 text-white">
                                 <th class="text-left p-3">Project Manager</th>
                                 <th class="text-left p-3">Project Title</th>
-                                <th class="text-left p-3">Date Updated</th>
                                 <th class="text-left w-xl p-3">Status</th>
                             </tr>
                         </thead>
@@ -93,7 +92,6 @@
                                 <tr>
                                     <td class="p-3"><?= $history['ProjectManager'] ?></td>
                                     <td class="p-3"><?= $history['Title'] ?></td>
-                                    <td class="p-3"><?= $history['DateAdded'] ?></td>
                                     <td class="p-3">
                                         <?php
                                         $status = $history['Status'];

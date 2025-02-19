@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use App\Models\ProjectModel;
 use App\Models\HistoryModel;
 use App\Models\FeatureUATModel;
+use App\Models\DocsHistoryModel;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -17,6 +18,7 @@ class ProjectManagerController extends BaseController
     protected $projectModel;
     protected $historyModel;
     protected $featureModel;
+    protected $docsHistoryModel;
 
     public function __construct()
     {
@@ -31,6 +33,7 @@ class ProjectManagerController extends BaseController
         $this->projectModel = new ProjectModel();
         $this->historyModel = new HistoryModel();
         $this->featureModel = new FeatureUATModel();
+        $this->docsHistoryModel = new DocsHistoryModel();
     }
 
     public function index()
@@ -71,9 +74,6 @@ class ProjectManagerController extends BaseController
     
         return view('projectmanager/dashboard', array_merge($this->sessionData ?? [], $data));
     }
-    
-    
-    
 
     public function addNewProject()
     {
@@ -133,8 +133,6 @@ class ProjectManagerController extends BaseController
     
         return view('projectmanager/listproject', array_merge($this->sessionData ?? [], $data));
     }
-    
-    
 
     public function manageProject($projectId)
     {
@@ -246,6 +244,12 @@ class ProjectManagerController extends BaseController
                 ->where('ProjectManagerId', $userId)
                 ->findAll();
         }
+
+        // Ambil data dokumen history
+        $docsHistory = [];
+        foreach ($historyProjects as $history) {
+            $docsHistory[$history['Id']] = $this->docsHistoryModel->where('Id', $history['Id'])->findAll();
+        }
     
         $data = [
             'historyprojects' => $historyProjects,
@@ -263,42 +267,66 @@ class ProjectManagerController extends BaseController
             
             $pdfFile = $this->request->getFile('Document');
             $uploadPath = WRITEPATH . 'uploads';
-
-            $history = $this->historyModel->find($Id);
-            if ($pdfFile && $pdfFile->isValid()) {
-                $newName = $history['Title'] . '_' . $history['DateAdded'] . '.pdf';
-                $pdfFile->move($uploadPath, $newName);
-            }
-
+    
+            // Perbarui status di historyModel
             $this->historyModel->update($Id, [
-                'Status'        => $this->request->getPost('ProjectStatus'),
-                'Document'      => $newName ?? $history['Document']
+                'Status' => $this->request->getPost('ProjectStatus'),
             ]);
-
+    
+            // Perbarui dokumen di docsHistoryModel
+            if ($pdfFile && $pdfFile->isValid()) {
+                $history = $this->historyModel->find($Id);
+                if ($history) {
+                    $newName = $history['Title'] . '_' . date('Ymd') . '.pdf';
+                    $pdfFile->move($uploadPath, $newName);
+    
+                    $this->docsHistoryModel->insert([
+                        'ProjectId' => $history['ProjectId'],
+                        'Title'     => $history['Title'],
+                        'Document'  => $newName,
+                    ]);
+                }
+            }
+    
             return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
         }
         
         $data['history'] = $this->historyModel->find($Id);
+        $data['docshistory'] = $this->docsHistoryModel->where('ProjectId', $Id)->findAll();
         return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
+    }
+
+    //Method untuk menampilkan daftar dokumen berdasarkan ID history
+    public function docsHistory($Id = null)
+    {
+        // Ambil data dokumen history berdasarkan ID history
+        $docsHistory = $this->docsHistoryModel->where('ProjectId', $Id)->findAll();
+    
+        // Kirim data ke view
+        $data = [
+            'docshistory' => $docsHistory,
+        ];
+    
+        return view('projectmanager/list_document', array_merge($this->sessionData ?? [], $data));
     }
 
     // Method untuk download file
     public function download($Id)
-{
-    $history = $this->historyModel->find($Id);
+    {
+        $doc = $this->historyModel->find($Id);
 
-    if (!$history || empty($history['Document'])) {
-        return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
+        if (!$doc || empty($doc['Document'])) {
+            return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
+        }
+
+        $filePath = WRITEPATH . 'uploads/' . $doc['Document'];
+
+        if (!file_exists($filePath)) {
+            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        }
+
+        return $this->response->download($filePath, null)->setFileName($doc['Document']);
     }
-
-    $filePath = WRITEPATH . 'uploads/' . $history['Document'];
-
-    if (!file_exists($filePath)) {
-        return redirect()->back()->with('error', 'File tidak ditemukan.');
-    }
-
-    return $this->response->download($filePath, null)->setFileName($history['Document']);
-}
 
     // Method untuk generate UAT
     public function generatePDF($projectId)

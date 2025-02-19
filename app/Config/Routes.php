@@ -28,6 +28,7 @@ $routes->get('/project-manager/history', 'ProjectManagerController::historyProje
 $routes->get('/project-manager/history/updateproject/(:num)', 'ProjectManagerController::updateHistoryProject/$1', ['filter'=>'auth']);
 $routes->put('/project-manager/history/updateproject/save', 'ProjectManagerController::updateHistoryProject', ['filter'=>'auth']);
 $routes->get('/project-manager/download/(:num)', 'ProjectManagerController::download/$1');
+$routes->get('project-manager/history/document/(:num)', 'ProjectManagerController::docsHistory/$1', ['filter'=>'auth']); // Pastikan rute ini ada
 
 // Fitur
 $routes->get('/project-manager/manageproject/(:num)', 'ProjectManagerController::manageProject/$1');

@@ -44,7 +44,6 @@
                             <tr class="border border-black bg-blue-800 text-white">
                                 <th class="text-left p-3">Project Manager</th>
                                 <th class="text-left p-3">Project Title</th>
-                                <th class="text-left p-3">Date Updated</th>
                                 <th class="text-left w-xl p-3">Status</th>
                                 <th class="text-center p-3">Document</th>
                                 <th class="text-center p-3">Update</th>
@@ -55,7 +54,6 @@
                                 <tr>
                                     <td class="p-3"><?= $history['ProjectManager'] ?></td>
                                     <td class="p-3"><?= $history['Title'] ?></td>
-                                    <td class="p-3"><?= $history['DateAdded'] ?></td>
                                     <td class="p-3">
                                         <?php
                                         $status = $history['Status'];
@@ -73,11 +71,17 @@
                                         </span>
                                     </td>
                                     <td class="text-center p-3">
-                                        <a href="<?= base_url('/project-manager/download/' . $history['Id']) ?>" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
-                                        hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
-                                        dark:focus:text-blue-400">
-                                            <i class="fa-regular fa-file" title="<?= $history['Document'] ?>"></i>
-                                        </a>
+                                        <?php if (isset($docsHistory[$history['Id']])): ?>
+                                            <?php foreach ($docsHistory[$history['Id']] as $docshistory): ?>
+                                                <a href="/project-manager/history/document/<?= $docshistory['ProjectId'] ?>" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                                hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                                dark:focus:text-blue-400">Click Here</a>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <a href="/project-manager/history/document/<?= $history['ProjectId'] ?>" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
+                                            hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400
+                                            dark:focus:text-blue-400">Click Here</a>
+                                        <?php endif; ?>
                                     </td>
                                     <td class="text-center p-3">
                                         <a href="/project-manager/history/updateproject/<?= $history['Id'] ?>" type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600
