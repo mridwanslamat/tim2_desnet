@@ -36,7 +36,7 @@ class ProjectManagerController extends BaseController
         $this->docsHistoryModel = new DocsHistoryModel();
     }
 
-    // Method untuk menampilkan halaman dashboard
+    // Method untuk menampilkan halaman dashboard project manager
     public function index()
     {
         $userId = session()->get('id'); // Ambil ID user yang login
@@ -76,6 +76,7 @@ class ProjectManagerController extends BaseController
         return view('projectmanager/dashboard', array_merge($this->sessionData ?? [], $data));
     }
 
+    // Method untuk menampilkan form tambah project
     public function addNewProject()
     {
         $data['projectManagers'] = $this->userModel->getProjectManagers();
@@ -300,7 +301,7 @@ class ProjectManagerController extends BaseController
         return view('projectmanager/updateproject', array_merge($this->sessionData ?? [], $data));
     }
 
-    //Method untuk menampilkan daftar dokumen berdasarkan ID history
+    //Method untuk menampilkan daftar dokumen berdasarkan ProjectId
     public function docsHistory($Id = null)
     {
         // Ambil data dokumen history berdasarkan ID history

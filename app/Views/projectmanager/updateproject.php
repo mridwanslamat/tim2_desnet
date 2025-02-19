@@ -33,9 +33,6 @@
 
                             <p class="bg-white border text-black text-left
                             text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-3" placeholder="Project Title"><?= $history['Title'] ?></p>
-                            
-                            <p class="bg-white border text-black text-left
-                            text-sm rounded-lg w-full p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-3" placeholder="Date Updated"><?= !empty($docshistory) ? $docshistory[0]['DateAdded'] : "No Document Avaible" ?></p>
 
                             <!-- Dropdown Status -->
                             <select name="ProjectStatus" class="bg-white border text-black text-sm rounded-lg w-full p-2.5 
