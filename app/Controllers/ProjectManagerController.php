@@ -360,8 +360,11 @@ class ProjectManagerController extends BaseController
         
         // Render PDF
         $dompdf->render();
+
+        //Ganti nama file PDF sesuai dengan judul proyek
+        $filename = str_replace(' ', '_', $project['Title']) . '_UAT_Report.pdf';
         
         // Download PDF
-        $dompdf->stream('Project_UAT_Report.pdf', ['Attachment' => 0]); // 0 = tampil di browser, 1 = langsung download
+        $dompdf->stream($filename, ['Attachment' => 0]); // 0 = tampil di browser, 1 = langsung download
     }
 }
