@@ -313,7 +313,7 @@ class ProjectManagerController extends BaseController
     // Method untuk download file
     public function download($Id)
     {
-        $doc = $this->historyModel->find($Id);
+        $doc = $this->docsHistoryModel->find($Id);
 
         if (!$doc || empty($doc['Document'])) {
             return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
