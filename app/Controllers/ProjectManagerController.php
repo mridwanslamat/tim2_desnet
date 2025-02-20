@@ -317,12 +317,16 @@ class ProjectManagerController extends BaseController
                 ->where('ProjectId', $Id)
                 ->findAll();
         }
+
+        // Ambil judul project
+        $project = $this->projectModel->find($Id);
         
         // Kirim data ke view
         $data = [
-            'docshistory' => $docsHistory,
-            'search'      => $keyword, // Kirimkan keyword ke view
-            'Id'          => $Id,
+            'docshistory'  => $docsHistory,
+            'search'       => $keyword, // Kirimkan keyword ke view
+            'Id'           => $Id,
+            'projectTitle' => $project['Title'],
         ];
     
         return view('projectmanager/list_document', array_merge($this->sessionData ?? [], $data));

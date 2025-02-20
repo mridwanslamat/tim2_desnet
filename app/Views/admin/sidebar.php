@@ -9,7 +9,7 @@
 </head>
 
 <!-- Side Bar -->
-<div class="bg-white flex h-screen w-[250px] flex flex-col p-4">
+<div class="bg-white flex h-screen w-[250px] flex-col p-4">
     <div class = "ml-6 mt-6">
         <img src="<?= base_url('img/desnet.jpg')?>" alt="desnet logo" class="w-3/5" >
     </div>

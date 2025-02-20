@@ -22,8 +22,15 @@
     </header>
   </div>
 
+  <!-- Judul Project -->
+  <div class="mt-[125px] ml-[275px] mr-[20px] text-xl font-bold text-center underline">
+      <h2>
+          Project Title: <?= esc($projectTitle) ?>
+      </h2>
+  </div>
+
   <!-- List -->
-  <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
+  <div class="justify-center bg-white mt-5 ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
     <div>
       <div class="border border-black rounded-lg  w-full">
         <form method="GET" action="<?= base_url('/project-manager/history/document/' . $Id) ?>" class="py-3 px-4 rounded-lg">
