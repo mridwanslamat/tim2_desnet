@@ -31,7 +31,7 @@ class AuthController extends Controller
                     'id' => $user['id'],
                     'username' => $user['username'],
                     'level' => $user['level'], // 1 = Admin, 2 = Project Manager
-                    'logged_in' => true
+                    'logged_in' => true,
                 ];
                 
                 $session->set($sessionData);
