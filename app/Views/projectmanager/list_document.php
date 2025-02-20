@@ -26,13 +26,13 @@
   <div class="justify-center bg-white mt-[125px] ml-[275px] mr-[20px] rounded-xl shadow-lg flex-col">
     <div>
       <div class="border border-black rounded-lg  w-full">
-        <form method="GET" action="<?= base_url('/project-manager/listproject') ?>" class="py-3 px-4 rounded-lg">
+        <form method="GET" action="<?= base_url('/project-manager/history/document/' . $Id) ?>" class="py-3 px-4 rounded-lg">
           <div class="border border-black rounded-lg relative max-w-xs">
             <input type="text" name="search" value="<?= isset($search) ? esc($search) : '' ?>"
               class="py-2 px-3 ps-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm 
                focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
                dark:bg-gray-100 dark:border-gray-600 dark:text-black dark:placeholder-gray-700 dark:focus:ring-gray-500"
-              placeholder="Search Project Title">
+              placeholder="Search Date Updated">
             <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3">
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>

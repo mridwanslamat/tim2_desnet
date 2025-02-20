@@ -304,12 +304,25 @@ class ProjectManagerController extends BaseController
     //Method untuk menampilkan daftar dokumen berdasarkan ProjectId
     public function docsHistory($Id = null)
     {
-        // Ambil data dokumen history berdasarkan ID history
-        $docsHistory = $this->docsHistoryModel->where('ProjectId', $Id)->findAll();
-    
+        $keyword = $this->request->getGet('search'); // Ambil kata kunci pencarian
+        
+        // Ambil data dokumen history berdasarkan ProjectId dan keyword pencarian
+        if ($keyword) {
+            $docsHistory = $this->docsHistoryModel
+                ->where('ProjectId', $Id)
+                ->like('DateAdded', $keyword)
+                ->findAll();
+        } else {
+            $docsHistory = $this->docsHistoryModel
+                ->where('ProjectId', $Id)
+                ->findAll();
+        }
+        
         // Kirim data ke view
         $data = [
             'docshistory' => $docsHistory,
+            'search'      => $keyword, // Kirimkan keyword ke view
+            'Id'          => $Id,
         ];
     
         return view('projectmanager/list_document', array_merge($this->sessionData ?? [], $data));

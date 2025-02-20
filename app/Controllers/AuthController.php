@@ -18,7 +18,7 @@ class AuthController extends Controller
         $userModel = new UserModel();
     
         $username = $this->request->getVar('username');
-        $password = $this->request->getVar('password'); // Pastikan hashing sama dengan yang di database
+        $password = $this->request->getVar('password'); 
         $password = sha1(sha1(md5($password)));
         
         $user = $userModel->where('username', $username)->first();
