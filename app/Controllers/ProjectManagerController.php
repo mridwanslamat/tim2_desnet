@@ -97,16 +97,16 @@ class ProjectManagerController extends BaseController
     
         // Validasi input
         if (empty($ProjectManager) || empty($Title) || empty($ClientCompany) || empty($ClientName) || empty($ProjectSchedule)) {
-            $session->setFlashdata('error', 'Semua kolom harus diisi!');
+            $session->setFlashdata('error', 'All fields are required!');
             return redirect()->back()->withInput();
         }
     
         try {
             // Panggil procedure untuk menyimpan data
             $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule);
-            $session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
+            $session->setFlashdata('success', 'Project successfully added!');
         } catch (\Exception $e) {
-            $session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            $session->setFlashdata('error', 'Error occurred: ' . $e->getMessage());
         }
     
         return redirect()->back();
@@ -164,7 +164,7 @@ class ProjectManagerController extends BaseController
 
         // Pastikan fitur dikirim sebagai array
         if (!is_array($features) || empty($features)) {
-            $session->setFlashdata('error', 'Fitur tidak boleh kosong!');
+            $session->setFlashdata('error', 'Features are not empty!');
             return redirect()->back();
         }
 
@@ -176,9 +176,9 @@ class ProjectManagerController extends BaseController
                 ]);
             }
 
-            $session->setFlashdata('success', 'Fitur berhasil disimpan!');
+            $session->setFlashdata('success', 'Features saved successfully!');
         } catch (\Exception $e) {
-            $session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            $session->setFlashdata('error', 'Error occurred: ' . $e->getMessage());
         }
 
         return redirect()->to('/project-manager/manageproject/feature-uat/' . $projectId);
@@ -190,18 +190,18 @@ class ProjectManagerController extends BaseController
         $feature = $this->request->getPost('Feature');
 
         if (empty($feature)) {
-            return redirect()->back()->with('error', 'Fitur tidak boleh kosong!');
+            return redirect()->back()->with('error', 'Feature cannot be empty!');
         }
 
         $this->featureModel->update($id, ['Feature' => $feature]);
-        return redirect()->back()->with('success', 'Fitur berhasil diupdate!');
+        return redirect()->back()->with('success', 'Feature updated successfully!');
     }
 
     // Method untuk menghapus fitur tersimpan
     public function deleteFeature($id)
     {
         $this->featureModel->delete($id);
-        return redirect()->back()->with('success', 'Fitur berhasil dihapus!');
+        return redirect()->back()->with('success', 'Feature successfully removed!');
     }
 
     // Method untuk menampilkan dan mengupdate fitur UAT yang sudah disimpan
@@ -217,7 +217,7 @@ class ProjectManagerController extends BaseController
                     'RevisionNotes'       => $features['RevisionNotes'][$key]
                 ]);
             }
-            return redirect()->back()->with('success', 'Data UAT berhasil disimpan!');
+            return redirect()->back()->with('success', 'UAT data saved successfully!');
         }
         
         // Ambil data proyek dan fitur UAT berdasarkan ProjectId
@@ -227,7 +227,7 @@ class ProjectManagerController extends BaseController
         $data['project'] = $this->projectModel->find($projectId);
 
         if (!$data['project']) {
-            return redirect()->back()->with('error', 'Project tidak ditemukan.');
+            return redirect()->back()->with('error', 'Project not found!');
         }
         
         return view('projectmanager/featureuat', array_merge($this->sessionData ?? [], $data));
@@ -293,7 +293,7 @@ class ProjectManagerController extends BaseController
                 }
             }
     
-            return redirect()->to('/project-manager/history')->with('success', 'Data berhasil diupdate!');
+            return redirect()->to('/project-manager/history')->with('success', 'Data successfully updated!');
         }
         
         $data['history'] = $this->historyModel->find($Id);

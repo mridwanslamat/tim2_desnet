@@ -89,7 +89,7 @@ class AdminController extends BaseController
 
         // Validasi input
         if (empty($ProjectManager) || empty($Title) || empty($ClientCompany) || empty($ClientName) || empty($ProjectSchedule)) {
-            $this->session->setFlashdata('error', 'Semua kolom harus diisi!');
+            $this->session->setFlashdata('error', 'All fields are required!');
             return redirect()->back()->withInput();
         }
 
@@ -98,10 +98,10 @@ class AdminController extends BaseController
             $this->projectModel->addProjectUsingProcedure($ProjectManager, $Title, $ClientCompany, $ClientName, $ProjectSchedule);
             
             // Set flash message sukses
-            $this->session->setFlashdata('success', 'Proyek berhasil ditambahkan!');
+            $this->session->setFlashdata('success', 'Project successfully added!');
         } catch (\Exception $e) {
             // Set flash message error jika terjadi kesalahan
-            $this->session->setFlashdata('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            $this->session->setFlashdata('error', 'Error occurred: ' . $e->getMessage());
         }
 
         return redirect()->back();
@@ -164,7 +164,7 @@ class AdminController extends BaseController
                 }
             }
     
-            return redirect()->to('/admin/history')->with('success', 'Data berhasil diupdate!');
+            return redirect()->to('/admin/history')->with('success', 'Data successfully updated!');
         }
         
         $data['history'] = $this->historyModel->find($Id);
