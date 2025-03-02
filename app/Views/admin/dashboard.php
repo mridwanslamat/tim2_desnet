@@ -63,7 +63,7 @@
     </div>
 
     <!-- On progress -->
-    <div class="bg-white mt-[30px] ml-[275px] mr-[20px] rounded-xl shadow-lg">
+    <div class="bg-white mt-[52px] ml-[275px] mr-[20px] rounded-xl shadow-lg">
         <div>
             <div class="border border-black rounded-lg w-full">
                 <form method="GET" action="<?= base_url('/admin/dashboard') ?>" class="py-3 px-4 rounded-lg">
