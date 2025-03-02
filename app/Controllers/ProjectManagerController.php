@@ -138,7 +138,7 @@ class ProjectManagerController extends BaseController
         return view('projectmanager/listproject', array_merge($this->sessionData ?? [], $data));
     }
 
-    // Method untuk mengelola fitur project
+    // Method untuk menampilkan halaman fitur project
     public function manageProject($projectId)
     {
         $project = $this->projectModel->find($projectId);
