@@ -338,13 +338,13 @@ class ProjectManagerController extends BaseController
         $doc = $this->docsHistoryModel->find($Id);
 
         if (!$doc || empty($doc['Document'])) {
-            return redirect()->back()->with('error', 'Dokumen tidak ditemukan.');
+            return redirect()->back()->with('error', 'Document not found!');
         }
 
         $filePath = WRITEPATH . 'uploads/' . $doc['Document'];
 
         if (!file_exists($filePath)) {
-            return redirect()->back()->with('error', 'File tidak ditemukan.');
+            return redirect()->back()->with('error', 'File not found!');
         }
 
         return $this->response->download($filePath, null)->setFileName($doc['Document']);
