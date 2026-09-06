@@ -56,30 +56,6 @@ Two role-based views are supported:
 - Composer
 - MySQL
 
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/mridwanslamat/tim2_desnet.git
-cd tim2_desnet
-
-# 2. Install dependencies
-composer install
-
-# 3. Configure environment
-cp env .env
-# → set baseURL and database.default.* (hostname, database, username, password) in .env
-
-# 4. Run migrations & (optional) seeders
-php spark migrate
-php spark db:seed
-
-# 5. Serve the app
-php spark serve
-```
-
-The app will be available at `http://localhost:8080`.
-
 ## Project Structure
 
 ```
