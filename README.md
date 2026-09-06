@@ -1,68 +1,110 @@
-# CodeIgniter 4 Application Starter
+<p align="center">
+  <img src="public/img/desnet.jpg" alt="Desnet logo" height="70">
+</p>
 
-## What is CodeIgniter?
+<h1 align="center">UAT Document Generator</h1>
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+<p align="center">
+  A web app for managing client projects and auto-generating User Acceptance Testing (UAT) documents,
+  built during a Web Development Internship at PT DES Teknologi Informasi (Desnet).
+</p>
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+<p align="center">
+  <img src="https://img.shields.io/badge/CodeIgniter-4-EF4223?logo=codeigniter&logoColor=white">
+  <img src="https://img.shields.io/badge/MySQL-database-4479A1?logo=mysql&logoColor=white">
+  <img src="https://img.shields.io/badge/Dompdf-PDF%20export-red">
+</p>
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+---
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+## About
 
-## Installation & updates
+Before this project, Desnet's project managers tracked UAT sign-off manually. This app centralizes that workflow: admins assign projects to project managers, project managers log the features to be tested, record validation status from both Desnet and the client side, and generate a formatted UAT document as a PDF, all from one dashboard.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Two role-based views are supported:
+- **Admin** create projects, assign a project manager, review project history
+- **Project Manager** manage assigned projects, add/edit features under test, track validation status, and generate the final UAT PDF
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## Features
 
-## Setup
+- 🔐 Role-based login (Admin / Project Manager) with session-based auth
+- 📁 Project creation and assignment
+- ✅ Feature-level UAT tracking, with separate validation status for Desnet and the client
+- 📄 One-click UAT document generation to PDF (via Dompdf)
+- 🔍 Searchable project history with status filtering (On Progress / Finished)
+- 📊 Dashboard stats — total projects and finished-project counts per user
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Screenshots
 
-## Important Change with index.php
+| Add new project | Update project |
+|---|---|
+| ![Add project](public/img/addnewproject.png) | ![Update project](public/img/updateproject.png) |
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Tech Stack
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+| Layer | Technology |
+|---|---|
+| Framework | CodeIgniter 4 (PHP) |
+| Database | MySQL |
+| Styling | Tailwind CSS |
+| PDF generation | Dompdf |
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## Getting Started
 
-## Repository Management
+### Prerequisites
+- PHP 8.1+
+- Composer
+- MySQL
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### Installation
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+```bash
+# 1. Clone the repository
+git clone https://github.com/mridwanslamat/tim2_desnet.git
+cd tim2_desnet
 
-## Server Requirements
+# 2. Install dependencies
+composer install
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+# 3. Configure environment
+cp env .env
+# → set baseURL and database.default.* (hostname, database, username, password) in .env
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+# 4. Run migrations & (optional) seeders
+php spark migrate
+php spark db:seed
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+# 5. Serve the app
+php spark serve
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+The app will be available at `http://localhost:8080`.
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+## Project Structure
+
+```
+app/
+ ├─ Controllers/
+ │   ├─ AuthController.php             # Login / session handling
+ │   ├─ AdminController.php            # Admin dashboard, project assignment, history
+ │   └─ ProjectManagerController.php   # PM dashboard, feature management, UAT PDF export
+ ├─ Models/
+ │   ├─ UserModel.php
+ │   ├─ ProjectModel.php
+ │   ├─ ProjectManagementModel.php
+ │   ├─ FeatureUATModel.php
+ │   └─ HistoryModel.php
+ └─ Views/
+     ├─ admin/
+     ├─ projectmanager/
+     └─ auth/
+```
+
+## Author
+
+**Muhammad Ridwan Slamat**
+Web Development Intern, PT DES Teknologi Informasi (Jan–Feb 2025)
+[LinkedIn](https://linkedin.com/in/ridwanslamat/) · [mridwans466@gmail.com](mailto:mridwans466@gmail.com)
+
+---
+<sub>Built on the CodeIgniter 4 framework.</sub>
